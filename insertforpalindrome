@@ -1,0 +1,34 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define min(a,b) (a<b)?a:b
+int findminchangerec(char str[],int l,int h)
+{
+    if(l>h)
+        return INT_MAX;
+    if(l==h)
+        return 0;
+    if(l==h-1)
+        return (str[l]==str[h])?0:1;
+
+    return (str[l] == str[h])?findminchangerec(str,l+1,h-1): (min(findminchangerec(str,l+1,h),findminchangerec(str,l,h-1))+1);
+
+}
+int findminchangedp(char str[],int n)
+{
+    int table[n][n];
+    int l,h,gap;
+    memset(table,0,sizeof(table));
+    for(gap=1;gap<n;++gap)
+        for(l=0,h=gap;h<n;++l,++h)
+            table[l][h] = (str[l] == str[h])?table[l+1][h-1]:(min(table[l][h-1],table[l+1][h])+1);
+    return table[0][n-1];
+}
+
+int main()
+{
+    char str1[]="abc";
+    cout<<"1st thing="<<findminchangerec(str1,0,strlen(str1)-1)<<endl;
+    cout<<"2nd thing="<<findminchangedp(str1,strlen(str1))<<endl;
+
+    return 0;
+}
