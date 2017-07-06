@@ -1,5 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define endl "\n"
+typedef long long ll;
+#define fastio ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)
 typedef map<int,int> MM;
 typedef map<int,int>::iterator ITR;
 typedef pair<int,int> PP;
@@ -22,6 +25,7 @@ ITR findmin(MM &dist_map)
 }
 
 int main() {
+    fastio;
     /* Enter your code here. Read input from STDIN. Print output to STDOUT */
     int t;
     cin>>t;
@@ -39,6 +43,7 @@ int main() {
             for(int k1=0;k1<g->v;++k1)
                 for(int k2=0;k2<g->v;++k2)
                         g->adj[k1][k2]=-1;
+            //memset(g->adj,-1,2*g->v*g->v);
             for(int j=0;j<g->e;j++)
             {
                 int t1,t2,wt;
@@ -46,12 +51,11 @@ int main() {
                 t1--;t2--;
                 if(g->adj[t1][t2]==-1||g->adj[t1][t2]>wt)
                     g->adj[t1][t2]=wt;
-                if(g->adj[t2][t1]==-1||g->adj[t2][t1]>wt)
-                    g->adj[t2][t1]=wt;
             }
-            int source;
-            cin>>source;
+            int source,dest;
+            cin>>source>>dest;
             source--;
+            dest--;
             dist_map[source]=0;
            /* for(int j=0;j<g->v;j++)
             {    for(int j1=0;j1<g->v;j1++)
@@ -86,21 +90,23 @@ int main() {
                 dist_map.erase(value);
             }
 
-            for(int j=0;j<g->v;j++)
-                if(j!=source)
-                    {
-                        ITR t2=final_dist.find(j);
+
+            if(dest!=source)
+              {
+                        ITR t2=final_dist.find(dest);
                         int use=t2->second;
                         if(use==INT_MAX||use==INT_MIN||use<0)
-                            cout<<"-1 ";
+                            cout<<"NO"<<endl;
                         else
-                            cout<<use<<" ";
-                    }
-      /*  for(int fr=0;fr<g->v;fr++)
-            delete g->adj[fr];
-        delete g->adj;
-        delete g;*/
-        cout<<"\n";
+                            cout<<use<<endl;
+              }
+            else
+                 cout<<"0"<<endl;
+            for(int fr=0;fr<g->v;fr++)
+                delete g->adj[fr];
+            delete g->adj;
+            delete g;
+
         }
     return 0;
 }
